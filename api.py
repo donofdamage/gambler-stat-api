@@ -24,8 +24,9 @@ def player_stats():
             return jsonify({"error":"Player not found"}), 404
         pid = pid_df.iloc[0]['key_mlbam']
 
-        year = datetime.datetime.now().year
-       df = season_game_logs(pid, year, split_season=False).dropna(subset=[stat])
+           year = datetime.datetime.now().year
+    df = season_game_logs(pid, year, split_season=False).dropna(subset=[stat])
+
        df = df[['Date','Opp',stat]].head(games)
 
         stats = [{"date":r['Date'], "opponent":r['Opp'], stat: int(r[stat])} for _,r in df.iterrows()]

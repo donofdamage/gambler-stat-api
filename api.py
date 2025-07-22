@@ -17,15 +17,15 @@ def player_stats():
     if league.lower() != 'mlb':
         return jsonify({"error":"Only MLB supported"}), 400
 
-    try:
+       try:
         first, last = player.split(" ", 1)
         pid_df = playerid_lookup(last, first)
         if pid_df.empty:
             return jsonify({"error":"Player not found"}), 404
         pid = pid_df.iloc[0]['key_mlbam']
 
-           year = datetime.datetime.now().year
-    df = season_game_logs(pid, year, split_season=False).dropna(subset=[stat])
+        year = datetime.datetime.now().year
+
 
        df = df[['Date','Opp',stat]].head(games)
 

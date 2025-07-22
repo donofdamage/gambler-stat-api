@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from pybaseball import playerid_lookup, player_game_logs
+from pybaseball import playerid_lookup, season_game_logs
 import datetime
 
 app = Flask(__name__)
@@ -24,7 +24,7 @@ def player_stats():
         pid = pid_df.iloc[0]['key_mlbam']
 
         year = datetime.datetime.now().year
-        df = player_game_logs(pid, year, 'hitting').dropna(subset=[stat])
+        df = season_game_logs(pid, year, split_season=False).dropna(subset=[stat])
         df = df[['Date','Opp',stat]].head(games)
 
         stats = [{"date":r['Date'], "opponent":r['Opp'], stat: int(r[stat])} for _,r in df.iterrows()]
